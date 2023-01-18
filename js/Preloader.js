@@ -14,21 +14,21 @@ export default class Preloader extends Phaser.Scene {
   }
 
   create() {
-    this.add.image(192, 192, "background").setScale(2);
+    this.add.image(192, 180, "background").setScale(2);
 
     this.loadText = this.add.text(32, 32, "LOADING...", {
       fontSize: "32px",
       fill: "#000",
     });
 
-    // if (this.sound.locked) {
-    //   this.loadText.setText("Click to Start");
+    if (this.sound.locked) {
+      this.loadText.setText("Click to Start");
 
-    //   this.input.once("pointerdown", () => {
-    //     this.scene.start("MainMenu");
-    //   });
-    // } else {
-    //   this.scene.start("MainMenu");
-    // }
+      this.input.once("pointerdown", () => {
+        this.scene.start("MainMenu");
+      });
+    } else {
+      this.scene.start("MainMenu");
+    }
   }
 }
