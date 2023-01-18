@@ -35,6 +35,8 @@ export default class Obstacles extends Phaser.Physics.Arcade.Group {
     for (let i = 0; i < this.items.length; i++) {
       if (this.items[i].upperObstacle.x < -200) {
         this.respawn(this.items[i]);
+        this.scene.score++;
+        this.scene.scoreText.setText("score: " + this.scene.score);
       }
     }
   }

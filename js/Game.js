@@ -15,10 +15,15 @@ export default class MainGame extends Phaser.Scene {
 
     this.enemyCollider;
     this.spotlight;
+
+    this.score = 0;
+    this.scoreText;
   }
 
   create() {
+    this.score = 0;
     this.isGameStarted = false;
+    this.background = [];
     this.backgrounds = this.physics.add.group();
     this.background.push(
       this.backgrounds
@@ -34,6 +39,7 @@ export default class MainGame extends Phaser.Scene {
         .setPipeline("Light2D")
         .refreshBody()
     );
+
     this.player = new Player(this, 75, 150);
 
     this.obstacles = new Obstacles(this.physics.world, this);
@@ -69,6 +75,11 @@ export default class MainGame extends Phaser.Scene {
         this.sound.play("start");
         this.backgrounds.setVelocityX(-50);
       }
+    });
+
+    this.scoreText = this.add.text(16, 16, "score: 0", {
+      fontSize: "16px",
+      fill: "#fff",
     });
   }
 
@@ -106,4 +117,6 @@ export default class MainGame extends Phaser.Scene {
       this.scene.start("MainMenu");
     });
   }
+
+  increaseScoreByTime() {}
 }
