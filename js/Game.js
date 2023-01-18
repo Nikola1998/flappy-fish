@@ -31,9 +31,12 @@ export default class MainGame extends Phaser.Scene {
         this.pressClickToStartText.destroy();
         this.obstacles.start();
         this.isGameStarted = true;
+        this.sound.play("start");
       }
     });
   }
 
-  update() {}
+  update() {
+    this.obstacles.update();
+  }
 }

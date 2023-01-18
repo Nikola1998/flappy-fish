@@ -29,5 +29,20 @@ export default class Obstacles extends Phaser.Physics.Arcade.Group {
     this.setVelocityX(this.moveSpeed);
   }
 
-  update() {}
+  update() {
+    for (let i = 0; i < this.items.length; i++) {
+      if (this.items[i].upperObstacle.x < -200) {
+        this.respawn(this.items[i]);
+      }
+    }
+  }
+
+  respawn(item) {
+    item.upperObstacle.x = this.spawnPositionX - 400;
+    item.lowerObstacle.x = this.spawnPositionX - 400;
+
+    let y = Phaser.Math.Between(-100, 100);
+    item.upperObstacle.y = y;
+    item.lowerObstacle.y = y + 400;
+  }
 }
