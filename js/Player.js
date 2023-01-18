@@ -6,28 +6,16 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
     scene.physics.add.existing(this);
 
     this.isAlive = true;
-    this.jumpForce = -150;
+    this.jumpForce = -250;
   }
 
   start() {
     this.isAlive = true;
-    this.setGravityY(200);
+    this.setGravityY(450);
     this.setCollideWorldBounds(true);
-
     this.scene.input.on("pointerdown", (pointer) => {
       this.setVelocityY(this.jumpForce);
+      this.scene.sound.play("jump");
     });
-  }
-
-  kill() {
-    this.isAlive = false;
-
-    this.body.stop();
-  }
-
-  update() {}
-
-  test() {
-    console.log("test works");
   }
 }

@@ -1,4 +1,5 @@
 import Player from "./Player.js";
+import Obstacles from "./Obstacles.js";
 
 export default class MainGame extends Phaser.Scene {
   constructor() {
@@ -6,11 +7,18 @@ export default class MainGame extends Phaser.Scene {
 
     this.player;
     this.pressClickToStartText;
+    this.isGameStarted = false;
+
+    this.obstacles;
   }
 
   create() {
+    this.isGameStarted = false;
     this.add.image(192, 192, "background").setScale(2);
-    this.player = new Player(this, 55, 40);
+    this.player = new Player(this, 75, 40);
+
+    this.obstacles = new Obstacles(this.physics.world, this);
+    this.obstacles.spawn();
 
     this.pressClickToStartText = this.add.text(195, 100, "Click To Start", {
       fontSize: "62px",
@@ -18,14 +26,14 @@ export default class MainGame extends Phaser.Scene {
     });
 
     this.input.on("pointerdown", (pointer) => {
-      this.player.start();
-      this.pressClickToStartText.destroy();
+      if (!this.isGameStarted) {
+        this.player.start();
+        this.pressClickToStartText.destroy();
+        this.obstacles.start();
+        this.isGameStarted = true;
+      }
     });
   }
 
   update() {}
-
-  jump() {
-    this.player.test();
-  }
 }
