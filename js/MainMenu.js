@@ -16,8 +16,8 @@ export default class MainMenu extends Phaser.Scene {
       fill: "#fff",
     });
 
-    // this.input.once("pointerdown", () => {
-    //   this.scene.start("MainGame");
-    // });
+    this.input.once("pointerdown", () => {
+      this.scene.start("MainGame");
+    });
   }
 }

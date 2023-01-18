@@ -22,7 +22,7 @@ export default class Preloader extends Phaser.Scene {
     });
 
     if (this.sound.locked) {
-      this.loadText.setText("Click to Start");
+      this.loadText.setText("Click to Continue");
 
       this.input.once("pointerdown", () => {
         this.scene.start("MainMenu");
