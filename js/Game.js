@@ -6,12 +6,14 @@ export default class MainGame extends Phaser.Scene {
     super("MainGame");
 
     this.player;
-    this.pressClickToStartText;
+    this.introText;
     this.isGameStarted = false;
 
     this.obstacles;
     this.background = [];
     this.backgrounds;
+
+    this.enemyCollider;
   }
 
   create() {
@@ -28,7 +30,15 @@ export default class MainGame extends Phaser.Scene {
     this.obstacles = new Obstacles(this.physics.world, this);
     this.obstacles.spawn();
 
-    this.pressClickToStartText = this.add.text(195, 100, "Click To Start", {
+    this.enemyCollider = this.physics.add.overlap(
+      this.player,
+      this.obstacles,
+      this.killPlayer,
+      null,
+      this
+    );
+
+    this.introText = this.add.text(130, 140, "Click To Start", {
       fontSize: "62px",
       fill: "#fff",
     });
@@ -36,7 +46,11 @@ export default class MainGame extends Phaser.Scene {
     this.input.on("pointerdown", (pointer) => {
       if (!this.isGameStarted) {
         this.player.start();
-        this.pressClickToStartText.destroy();
+        this.tweens.add({
+          targets: this.introText,
+          alpha: 0,
+          duration: 300,
+        });
         this.obstacles.start();
         this.isGameStarted = true;
         this.sound.play("start");
@@ -53,5 +67,31 @@ export default class MainGame extends Phaser.Scene {
         this.background[i].x = 1536;
       }
     }
+  }
+
+  killPlayer(player, obstacle) {
+    this.gameOver();
+  }
+
+  gameOver() {
+    this.sound.stopAll();
+    this.player.die();
+    this.physics.pause();
+
+    this.introText.setText("You Have Died!");
+
+    this.tweens.add({
+      targets: this.introText,
+      alpha: 1,
+      duration: 300,
+    });
+
+    if (this.newHighscore) {
+      this.registry.set("highscore", this.score);
+    }
+
+    this.input.once("pointerdown", () => {
+      this.scene.start("MainMenu");
+    });
   }
 }
