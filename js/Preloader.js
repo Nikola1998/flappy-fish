@@ -6,6 +6,7 @@ export default class Preloader extends Phaser.Scene {
   preload() {
     this.load.image("sea-weed", "assets/sea-weed.png");
     this.load.image("fish", "assets/fish.png");
+    this.load.image("bubble", "assets/bubble.png");
 
     this.load.audio("die", "assets/sounds/die.mp3");
     this.load.audio("jump", "assets/sounds/jump.mp3");

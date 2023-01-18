@@ -14,21 +14,34 @@ export default class MainGame extends Phaser.Scene {
     this.backgrounds;
 
     this.enemyCollider;
+    this.spotlight;
   }
 
   create() {
     this.isGameStarted = false;
     this.backgrounds = this.physics.add.group();
     this.background.push(
-      this.backgrounds.create(0, 192, "background").setScale(2)
+      this.backgrounds
+        .create(0, 192, "background")
+        .setScale(2)
+        .setPipeline("Light2D")
+        .refreshBody()
     );
     this.background.push(
-      this.backgrounds.create(1536, 192, "background").setScale(2)
+      this.backgrounds
+        .create(1536, 192, "background")
+        .setScale(2)
+        .setPipeline("Light2D")
+        .refreshBody()
     );
     this.player = new Player(this, 75, 150);
 
     this.obstacles = new Obstacles(this.physics.world, this);
     this.obstacles.spawn();
+
+    this.lights.enable();
+    this.lights.setAmbientColor(0x808080);
+    this.spotlight = this.lights.addLight(100, 100, 100).setIntensity(1);
 
     this.enemyCollider = this.physics.add.overlap(
       this.player,
@@ -67,6 +80,9 @@ export default class MainGame extends Phaser.Scene {
         this.background[i].x = 1536;
       }
     }
+
+    this.spotlight.x = this.player.x;
+    this.spotlight.y = this.player.y;
   }
 
   killPlayer(player, obstacle) {
@@ -85,10 +101,6 @@ export default class MainGame extends Phaser.Scene {
       alpha: 1,
       duration: 300,
     });
-
-    if (this.newHighscore) {
-      this.registry.set("highscore", this.score);
-    }
 
     this.input.once("pointerdown", () => {
       this.scene.start("MainMenu");

@@ -11,12 +11,14 @@ export default class Obstacles extends Phaser.Physics.Arcade.Group {
   spawn() {
     for (let i = 0; i < this.spawnAmount; i++) {
       let y = Phaser.Math.Between(-100, 100);
-      let upperObstacle = this.create(
+      let upperObstacle = this.create(this.spawnPositionX, y, "sea-weed")
+        .setRotation(3.14159)
+        .setPipeline("Light2D");
+      let lowerObstacle = this.create(
         this.spawnPositionX,
-        y,
+        y + 400,
         "sea-weed"
-      ).setRotation(3.14159);
-      let lowerObstacle = this.create(this.spawnPositionX, y + 400, "sea-weed");
+      ).setPipeline("Light2D");
       this.spawnPositionX += 200;
       this.items.push({
         upperObstacle: upperObstacle,
